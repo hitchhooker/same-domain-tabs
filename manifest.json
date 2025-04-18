@@ -2,7 +2,7 @@
   "name": "Manage Tabs by Domain (MV3)",
   "short_name": "Manage Tabs (MV3)",
   "description": "Close and gather same-domain tabs.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "manifest_version": 3,
   "permissions": ["tabs"],
   "background": {

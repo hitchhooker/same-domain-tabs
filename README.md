@@ -5,7 +5,7 @@ A modern Chrome extension for managing same-domain tabs, built with Manifest V3 
 Tabs with the same domain as the active tab can be closed with CMD + Shift + X or gathered around the active tab with CMD + Shift + A. All same-domain tabs can be gathered with CMD + Shift + L. Alternatively, tabs can be managed by clicking on the extension's button and selecting Close, Gather, or Gather All.
 
 <p align="center">
-  <img src="https://i.imgur.com/example.png" alt="Extension Screenshot" width="320" />
+  <img src="https://lh3.googleusercontent.com/Q29f-0zD2oWxmIdlf2mZ-T5FqWzU88EasykSvNW4mpgxsqPDjb5ZYyGK6BzvRp7czp5Xc4Po2FJ3oZchX7zdn58_gQ" alt="Extension Screenshot" width="320" />
 </p>
 
 ## Features

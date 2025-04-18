@@ -1,17 +1,13 @@
 {
-  "name": "Manage Tabs by Domain",
-  "short_name": "Manage Tabs",
+  "name": "Manage Tabs by Domain (MV3)",
+  "short_name": "Manage Tabs (MV3)",
   "description": "Close and gather same-domain tabs.",
-  "version": "0.0.2",
-  "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
-  "permissions": ["tabs", "commands"],
+  "version": "0.0.5",
+  "manifest_version": 3,
+  "permissions": ["tabs"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js",
+    "type": "module"
   },
   "commands": {
     "gather-tabs": {
@@ -36,9 +32,12 @@
       "description": "Gather all same-domain tabs."
     }
   },
-  "browser_action": {
-    "default_icon": "icons/icon48.png",
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
     "default_popup": "popup.html"
-  },
-  "manifest_version": 2
+  }
 }

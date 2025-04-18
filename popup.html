@@ -2,27 +2,213 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manage Tabs by Domain</title>
+  
+  <style>
+    /* Modern CSS with gold/black color scheme - improved contrast */
+    :root {
+      --color-gold: #b8882d;
+      --color-gold-hover: #d19c33;
+      --color-gold-light: #d4af37;
+      --color-green-light: #37d44f;
+      --color-dark: #111111;
+      --color-dark-hover: #222222;
+      --color-accent: #1f1f1f;
+      --color-accent-hover: #2a2a2a;
+      --color-text-light: #ffffff;
+      --color-text-dark: #000000;
+      --color-bg-dark: #000000;
+      --radius: 4px;
+      --transition: 0.2s all ease;
+    }
 
-  <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="popup.js"></script>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, sans-serif;
+      width: 220px;
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-light);
+      padding: 8px;
+      border-radius: 0;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    /* Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--color-text-light);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+      width: 100%;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background-color: currentColor;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn:focus {
+      outline: 2px solid var(--color-gold);
+      outline-offset: 1px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-close {
+      background-color: var(--color-dark);
+    }
+
+    .btn-close:hover {
+      background-color: var(--color-dark-hover);
+    }
+
+    .btn-close::before {
+      background-color: #ff3b30;
+    }
+
+    .btn-gather {
+      background-color: var(--color-accent);
+    }
+
+    .btn-gather:hover {
+      background-color: var(--color-accent-hover);
+    }
+
+    .btn-gather::before {
+      background-color: var(--color-gold-light);
+    }
+
+    .btn-gather-all {
+      background-color: var(--color-gold);
+      color: var(--color-text-dark);
+    }
+
+    .btn-gather-all:hover {
+      background-color: var(--color-gold-hover);
+    }
+
+    .btn-gather-all::before {
+      background-color: var(--color-green-light);
+    }
+
+    /* Icons */
+    .icon {
+      display: inline-flex;
+      width: 14px;
+      height: 14px;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* Keyboard Shortcut */
+    .shortcut {
+      margin-left: auto;
+      font-size: 10px;
+      opacity: 0.7;
+      padding: 2px 4px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--color-accent);
+      padding-bottom: 4px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--color-gold);
+      letter-spacing: 0.5px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 6px;
+      font-size: 9px;
+      text-align: center;
+      opacity: 0.6;
+      padding-top: 4px;
+      border-top: 1px solid var(--color-accent);
+    }
+  </style>
+  
+  <!-- Defer loading popup.js until DOM is ready -->
+  <script src="popup.js" defer></script>
 </head>
 <body>
-  <div class="btn-group-vertical">
-    <button id="close-tabs" type="button" class="btn btn-default btn-sm" tabindex="-1">
-      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-      Close
+  <div class="header">
+    <span class="logo">Domain Tabs</span>
+  </div>
+  
+  <div class="container">
+    <button id="close-tabs" class="btn btn-close">
+      <span class="icon">✕</span>
+      <span>Close Tabs</span>
+      <span class="shortcut">⌘⇧X</span>
     </button>
-    <button id="gather-tabs" type="button" class="btn btn-default btn-sm" tabindex="-1">
-      <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
-      Gather
+    
+    <button id="gather-tabs" class="btn btn-gather">
+      <span class="icon">↔</span>
+      <span>Gather Around</span>
+      <span class="shortcut">⌘⇧A</span>
     </button>
-    <button id="gather-tabs-all" type="button" class="btn btn-default btn-sm" tabindex="-1">
-      <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
-      <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
-      Gather All
+    
+    <button id="gather-tabs-all" class="btn btn-gather-all">
+      <span class="icon">⊕</span>
+      <span>Gather All</span>
+      <span class="shortcut">⌘⇧L</span>
     </button>
   </div>
+  
+  <div class="footer">
+    Manage tabs with the same domain
+  </div>
+  
 </body>
 </html>

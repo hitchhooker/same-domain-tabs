@@ -1,3 +1,4 @@
+// Helper functions
 function getDomain(tab) {
   var url = new URL(tab.url);
   return url.origin + "/*";
@@ -111,10 +112,20 @@ function handleCommand(cmd) {
   });
 }
 
+// Event listeners
 chrome.commands.onCommand.addListener(function(cmd) {
   handleCommand(cmd);
 });
 
-chrome.runtime.onMessage.addListener(function(request) {
+// In Manifest V3, we need to use the Chrome Runtime onMessage API
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   handleCommand(request.cmd);
+  // Must return true if you want to use sendResponse asynchronously
+  return true;
+});
+
+// Service workers in Manifest V3 may be terminated when idle
+// Add an onInstalled listener to ensure the service worker activates properly
+chrome.runtime.onInstalled.addListener(() => {
+  console.log('Extension installed');
 });

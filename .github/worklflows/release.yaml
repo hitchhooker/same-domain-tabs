@@ -1,0 +1,49 @@
+name: Build and Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on version tags like v0.0.4
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      
+      - name: Install jq
+        run: sudo apt-get install jq
+      
+      - name: Extract version
+        id: version
+        run: echo "VERSION=$(jq -r '.version' manifest.json)" >> $GITHUB_ENV
+      
+      - name: Build extension
+        run: make build
+      
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: manage-tabs-by-domain-v${{ env.VERSION }}.zip
+          name: Release v${{ env.VERSION }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Chrome Web Store publishing
+        run: npm install -g chrome-webstore-upload-cli
+
+      - name: Publish to Chrome Web Store
+        run: |
+          chrome-webstore-upload-cli upload --source manage-tabs-by-domain-v${{ env.VERSION }}.zip --extension-id YOUR_EXTENSION_ID --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
+          chrome-webstore-upload-cli publish --extension-id YOUR_EXTENSION_ID --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
